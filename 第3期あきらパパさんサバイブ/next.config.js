@@ -10,6 +10,9 @@ const nextConfig = {
     '@emotion/styled',
   ],
   serverComponentsExternalPackages: ['mongoose', 'nodemailer'],
+  experimental: {
+    esmExternals: false,
+  },
   webpack: (config, { isServer }) => {
     if (!isServer) {
       config.resolve.fallback = {
