@@ -18,19 +18,6 @@ const nextConfig = {
         fs: false,
       };
     }
-    // ES modulesの解決を改善
-    config.resolve.extensionAlias = {
-      '.js': ['.js', '.ts', '.tsx'],
-      '.jsx': ['.jsx', '.tsx'],
-    };
-    // MUIのES modules問題を回避 - ディレクトリインポートを解決
-    config.resolve.alias = {
-      ...config.resolve.alias,
-    };
-    // MUI utilsのディレクトリインポート問題を解決
-    if (isServer) {
-      config.resolve.fullySpecified = false;
-    }
     return config;
   },
 }
