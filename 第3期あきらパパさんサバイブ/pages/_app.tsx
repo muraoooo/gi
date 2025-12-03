@@ -19,11 +19,6 @@ const theme = createTheme({
 function Navigation() {
   const router = useRouter();
 
-  // LP（ホームページ）では共通ナビゲーションを表示しない
-  if (router.pathname === '/') {
-    return null;
-  }
-
   return (
     <AppBar position="static">
       <Toolbar>
@@ -52,6 +47,13 @@ function Navigation() {
 }
 
 export default function App({ Component, pageProps }: AppProps) {
+  const router = useRouter();
+  const isLandingPage = router.pathname === '/';
+
+  if (isLandingPage) {
+    return <Component {...pageProps} />;
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
