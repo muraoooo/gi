@@ -9,7 +9,7 @@ const nextConfig = {
     '@emotion/react',
     '@emotion/styled',
   ],
-  output: 'standalone',
+  serverComponentsExternalPackages: ['mongoose', 'nodemailer'],
   webpack: (config, { isServer }) => {
     if (!isServer) {
       config.resolve.fallback = {
@@ -17,6 +17,11 @@ const nextConfig = {
         fs: false,
       };
     }
+    // ES modulesの解決を改善
+    config.resolve.extensionAlias = {
+      '.js': ['.js', '.ts', '.tsx'],
+      '.jsx': ['.jsx', '.tsx'],
+    };
     return config;
   },
 }
