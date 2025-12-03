@@ -11,6 +11,7 @@ const nextConfig = {
   ],
   experimental: {
     serverComponentsExternalPackages: ['mongoose', 'nodemailer'],
+    esmExternals: 'loose',
   },
   swcMinify: true,
   webpack: (config, { isServer }) => {
@@ -20,6 +21,11 @@ const nextConfig = {
         fs: false,
       };
     }
+    
+    // サーバーサイドビルドでのESM解決問題を回避
+    // 特に @mui/utils などでのディレクトリインポートエラー (ERR_UNSUPPORTED_DIR_IMPORT) 対策
+    config.resolve.fullySpecified = false;
+
     return config;
   },
 }
