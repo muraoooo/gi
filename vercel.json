@@ -1,0 +1,8 @@
+{
+  "buildCommand": "cd \"第3期あきらパパさんサバイブ\" && npm install && npm run build",
+  "outputDirectory": "第3期あきらパパさんサバイブ/.next",
+  "installCommand": "cd \"第3期あきらパパさんサバイブ\" && npm install",
+  "framework": "nextjs",
+  "rootDirectory": "第3期あきらパパさんサバイブ"
+}
+
