@@ -19,6 +19,11 @@ const theme = createTheme({
 function Navigation() {
   const router = useRouter();
 
+  // LP（ホームページ）では共通ナビゲーションを表示しない
+  if (router.pathname === '/') {
+    return null;
+  }
+
   return (
     <AppBar position="static">
       <Toolbar>
@@ -55,4 +60,3 @@ export default function App({ Component, pageProps }: AppProps) {
     </ThemeProvider>
   );
 }
-
