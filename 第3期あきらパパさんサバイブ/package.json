@@ -23,7 +23,7 @@
     "nodemailer": "^6.9.0"
   },
   "resolutions": {
-    "@mui/utils": "^5.14.21"
+    "@mui/utils": "^5.14.19"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
