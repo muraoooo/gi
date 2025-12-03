@@ -1,6 +1,9 @@
 import type { AppProps } from 'next/app';
-import dynamic from 'next/dynamic';
 import { ThemeProvider, createTheme, CssBaseline } from '@mui/material';
+import { useRouter } from 'next/router';
+import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material';
+import ContactMailIcon from '@mui/icons-material/ContactMail';
+import HomeIcon from '@mui/icons-material/Home';
 
 const theme = createTheme({
   palette: {
@@ -13,10 +16,41 @@ const theme = createTheme({
   },
 });
 
+function Navigation() {
+  const router = useRouter();
+
+  return (
+    <AppBar position="static">
+      <Toolbar>
+        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          お問合せフォームアプリ
+        </Typography>
+        <Box sx={{ display: 'flex', gap: 1 }}>
+          <Button
+            color="inherit"
+            startIcon={<HomeIcon />}
+            onClick={() => router.push('/')}
+          >
+            ホーム
+          </Button>
+          <Button
+            color="inherit"
+            startIcon={<ContactMailIcon />}
+            onClick={() => router.push('/contact')}
+          >
+            お問合せ
+          </Button>
+        </Box>
+      </Toolbar>
+    </AppBar>
+  );
+}
+
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
+      <Navigation />
       <Component {...pageProps} />
     </ThemeProvider>
   );
