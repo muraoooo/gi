@@ -9,8 +9,11 @@ const nextConfig = {
     '@emotion/react',
     '@emotion/styled',
   ],
-  serverComponentsExternalPackages: ['mongoose', 'nodemailer'],
+  serverComponentsExternalPackages: ['mongoose', 'nodemailer', '@mui/utils', '@mui/material', '@mui/system'],
   swcMinify: true,
+  outputFileTracingIncludes: {
+    '/**': ['./node_modules/@mui/**/*'],
+  },
   webpack: (config, { isServer }) => {
     if (!isServer) {
       config.resolve.fallback = {
