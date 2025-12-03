@@ -10,17 +10,7 @@ const nextConfig = {
     '@emotion/styled',
   ],
   serverComponentsExternalPackages: ['mongoose', 'nodemailer'],
-  experimental: {
-    esmExternals: 'loose',
-  },
-  modularizeImports: {
-    '@mui/material': {
-      transform: '@mui/material/{{member}}',
-    },
-    '@mui/icons-material': {
-      transform: '@mui/icons-material/{{member}}',
-    },
-  },
+  swcMinify: true,
   webpack: (config, { isServer }) => {
     if (!isServer) {
       config.resolve.fallback = {
@@ -32,6 +22,10 @@ const nextConfig = {
     config.resolve.extensionAlias = {
       '.js': ['.js', '.ts', '.tsx'],
       '.jsx': ['.jsx', '.tsx'],
+    };
+    // MUIのES modules問題を回避
+    config.resolve.alias = {
+      ...config.resolve.alias,
     };
     return config;
   },
