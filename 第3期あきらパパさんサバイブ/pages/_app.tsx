@@ -1,6 +1,5 @@
-'use client';
-
 import type { AppProps } from 'next/app';
+import dynamic from 'next/dynamic';
 import { ThemeProvider, createTheme, CssBaseline } from '@mui/material';
 
 const theme = createTheme({

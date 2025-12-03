@@ -11,7 +11,15 @@ const nextConfig = {
   ],
   serverComponentsExternalPackages: ['mongoose', 'nodemailer'],
   experimental: {
-    esmExternals: false,
+    esmExternals: 'loose',
+  },
+  modularizeImports: {
+    '@mui/material': {
+      transform: '@mui/material/{{member}}',
+    },
+    '@mui/icons-material': {
+      transform: '@mui/icons-material/{{member}}',
+    },
   },
   webpack: (config, { isServer }) => {
     if (!isServer) {
