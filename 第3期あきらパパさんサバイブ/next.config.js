@@ -34,8 +34,14 @@ const nextConfig = {
     // 特に @mui/utils などでのディレクトリインポートエラー (ERR_UNSUPPORTED_DIR_IMPORT) 対策
     config.resolve.fullySpecified = false;
 
-    // エイリアス設定を削除し、標準的な解決に戻す
-    // 過度なエイリアス設定が内部依存関係の解決を妨げているため
+    // Node.js がディレクトリインポートをサポートしないため、MUI内部の一部モジュールをファイル単位で指すようにエイリアスを設定
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      '@mui/utils/formatMuiErrorMessage': '@mui/utils/formatMuiErrorMessage/index.js',
+      '@mui/utils/generateUtilityClasses': '@mui/utils/generateUtilityClasses/index.js',
+      '@mui/utils/generateUtilityClass': '@mui/utils/generateUtilityClass/index.js',
+      '@mui/system/colorManipulator': '@mui/system/colorManipulator.js',
+    };
 
     return config;
   },
