@@ -9,7 +9,9 @@ const nextConfig = {
     '@emotion/react',
     '@emotion/styled',
   ],
-  serverComponentsExternalPackages: ['mongoose', 'nodemailer'],
+  experimental: {
+    serverComponentsExternalPackages: ['mongoose', 'nodemailer'],
+  },
   swcMinify: true,
   webpack: (config, { isServer }) => {
     if (!isServer) {

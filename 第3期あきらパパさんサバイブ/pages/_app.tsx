@@ -2,8 +2,8 @@ import type { AppProps } from 'next/app';
 import { ThemeProvider, createTheme, CssBaseline } from '@mui/material';
 import { useRouter } from 'next/router';
 import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material';
-import ContactMailIcon from '@mui/icons-material/ContactMail';
-import HomeIcon from '@mui/icons-material/Home';
+import ContactMailIcon from '@mui/icons-material/ContactMail.js';
+import HomeIcon from '@mui/icons-material/Home.js';
 
 const theme = createTheme({
   palette: {
