@@ -11,7 +11,15 @@ const nextConfig = {
   ],
   experimental: {
     serverComponentsExternalPackages: ['mongoose', 'nodemailer'],
-    esmExternals: false, // ESモジュールサポートを無効化してCommonJSとして処理させる
+    // esmExternals: false は削除し、デフォルトの挙動に戻す
+  },
+  modularizeImports: {
+    '@mui/material': {
+      transform: '@mui/material/{{member}}',
+    },
+    '@mui/icons-material': {
+      transform: '@mui/icons-material/{{member}}',
+    },
   },
   swcMinify: true,
   webpack: (config, { isServer }) => {
@@ -26,14 +34,8 @@ const nextConfig = {
     // 特に @mui/utils などでのディレクトリインポートエラー (ERR_UNSUPPORTED_DIR_IMPORT) 対策
     config.resolve.fullySpecified = false;
 
-    // @mui/utils などを強制的に解決するためのエイリアス設定
-    config.resolve.alias = {
-      ...config.resolve.alias,
-      '@mui/material': '@mui/material/node',
-      '@mui/icons-material': '@mui/icons-material/node',
-      '@mui/system': '@mui/system/node',
-      '@mui/utils': '@mui/utils/node',
-    };
+    // エイリアス設定を削除し、標準的な解決に戻す
+    // 過度なエイリアス設定が内部依存関係の解決を妨げているため
 
     return config;
   },
