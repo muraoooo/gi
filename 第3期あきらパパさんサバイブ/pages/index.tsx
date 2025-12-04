@@ -88,8 +88,8 @@ export default function LandingPage() {
                 <Link href="#" color="text.secondary" underline="none" sx={{ '&:hover': { color: 'primary.main' } }}>特徴</Link>
                 <Link href="#" color="text.secondary" underline="none" sx={{ '&:hover': { color: 'primary.main' } }}>使い方</Link>
                 <Link href="/contact" color="text.secondary" underline="none" sx={{ '&:hover': { color: 'primary.main' } }}>お問い合わせ</Link>
-                <Button color="inherit">ログイン</Button>
-                <Button variant="contained" color="primary">登録する</Button>
+                <Button color="inherit" onClick={() => router.push('/auth/signin')}>ログイン</Button>
+                <Button variant="contained" color="primary" onClick={() => router.push('/auth/signin')}>登録する</Button>
               </Box>
             </Toolbar>
           </Container>
@@ -114,10 +114,10 @@ export default function LandingPage() {
               AIが24時間365日、あなたのコードを優しく、的確にレビューします。
             </Typography>
             <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} justifyContent="center">
-              <Button variant="contained" size="large" sx={{ px: 4, py: 1.5, fontSize: '1.1rem' }}>
+              <Button variant="contained" size="large" sx={{ px: 4, py: 1.5, fontSize: '1.1rem' }} onClick={() => router.push('/auth/signin')}>
                 無料でレビューを試す <ArrowForwardIcon sx={{ ml: 1, fontSize: 20 }} />
               </Button>
-              <Button variant="outlined" size="large" sx={{ px: 4, py: 1.5, fontSize: '1.1rem', borderColor: 'rgba(255,255,255,0.2)', color: 'white' }}>
+              <Button variant="outlined" size="large" sx={{ px: 4, py: 1.5, fontSize: '1.1rem', borderColor: 'rgba(255,255,255,0.2)', color: 'white' }} onClick={() => router.push('/contact')}>
                 デモを見る
               </Button>
             </Stack>
@@ -205,7 +205,7 @@ export default function LandingPage() {
             <Typography color="text.secondary" sx={{ mb: 4 }}>
               今すぐ無料で始めて、プログラミングスキルを次のレベルへ。
             </Typography>
-            <Button variant="contained" size="large" sx={{ px: 6, py: 1.5, fontSize: '1.1rem' }}>
+            <Button variant="contained" size="large" sx={{ px: 6, py: 1.5, fontSize: '1.1rem' }} onClick={() => router.push('/auth/signin')}>
               今すぐ始める（無料）
             </Button>
             <Box sx={{ mt: 4 }}>

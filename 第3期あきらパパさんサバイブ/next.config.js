@@ -43,6 +43,7 @@ const nextConfig = {
       '@mui/system/colorManipulator': '@mui/system/colorManipulator.js',
     };
 
+
     return config;
   },
 }
