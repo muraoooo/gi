@@ -35,12 +35,21 @@ const nextConfig = {
     config.resolve.fullySpecified = false;
 
     // Node.js がディレクトリインポートをサポートしないため、MUI内部の一部モジュールをファイル単位で指すようにエイリアスを設定
+    const resolveModule = (request) => {
+      try {
+        return require.resolve(request);
+      } catch (error) {
+        console.warn(`Failed to resolve ${request}:`, error);
+        return request;
+      }
+    };
+
     config.resolve.alias = {
       ...config.resolve.alias,
-      '@mui/utils/formatMuiErrorMessage': '@mui/utils/formatMuiErrorMessage/index.js',
-      '@mui/utils/generateUtilityClasses': '@mui/utils/generateUtilityClasses/index.js',
-      '@mui/utils/generateUtilityClass': '@mui/utils/generateUtilityClass/index.js',
-      '@mui/system/colorManipulator': '@mui/system/colorManipulator.js',
+      '@mui/utils/formatMuiErrorMessage$': resolveModule('@mui/utils/formatMuiErrorMessage/index.js'),
+      '@mui/utils/generateUtilityClasses$': resolveModule('@mui/utils/generateUtilityClasses/index.js'),
+      '@mui/utils/generateUtilityClass$': resolveModule('@mui/utils/generateUtilityClass/index.js'),
+      '@mui/system/colorManipulator$': resolveModule('@mui/system/colorManipulator.js'),
     };
 
 
