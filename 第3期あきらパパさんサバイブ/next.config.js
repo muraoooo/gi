@@ -11,7 +11,7 @@ const nextConfig = {
   ],
   experimental: {
     serverComponentsExternalPackages: ['mongoose', 'nodemailer'],
-    // esmExternals: false は削除し、デフォルトの挙動に戻す
+    esmExternals: false,
   },
   modularizeImports: {
     '@mui/material': {
