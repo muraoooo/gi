@@ -6,6 +6,7 @@ const nextConfig = {
     '@mui/system',
     '@mui/utils',
     '@mui/icons-material',
+    '@mui/x-data-grid',
     '@emotion/react',
     '@emotion/styled',
   ],
@@ -44,14 +45,32 @@ const nextConfig = {
       }
     };
 
-    config.resolve.alias = {
-      ...config.resolve.alias,
-      '@mui/utils/formatMuiErrorMessage$': resolveModule('@mui/utils/formatMuiErrorMessage/index.js'),
-      '@mui/utils/generateUtilityClasses$': resolveModule('@mui/utils/generateUtilityClasses/index.js'),
-      '@mui/utils/generateUtilityClass$': resolveModule('@mui/utils/generateUtilityClass/index.js'),
-      '@mui/system/colorManipulator$': resolveModule('@mui/system/colorManipulator.js'),
-    };
+    // @mui/utilsのモジュール解決を改善
+    // generateUtilityClassesの解決を改善
+    try {
+      const generateUtilityClassesPath = require.resolve('@mui/utils/generateUtilityClasses/generateUtilityClasses.js');
+      config.resolve.alias = {
+        ...config.resolve.alias,
+        '@mui/utils/formatMuiErrorMessage$': resolveModule('@mui/utils/formatMuiErrorMessage/index.js'),
+        '@mui/utils/generateUtilityClasses': generateUtilityClassesPath,
+        '@mui/utils/generateUtilityClass$': resolveModule('@mui/utils/generateUtilityClass/generateUtilityClass.js'),
+        '@mui/system/colorManipulator$': resolveModule('@mui/system/colorManipulator.js'),
+      };
+    } catch (error) {
+      console.warn('Failed to resolve @mui/utils modules:', error);
+      config.resolve.alias = {
+        ...config.resolve.alias,
+        '@mui/utils/formatMuiErrorMessage$': resolveModule('@mui/utils/formatMuiErrorMessage/index.js'),
+        '@mui/utils/generateUtilityClass$': resolveModule('@mui/utils/generateUtilityClass/generateUtilityClass.js'),
+        '@mui/system/colorManipulator$': resolveModule('@mui/system/colorManipulator.js'),
+      };
+    }
 
+    // CSSファイルの解決を設定
+    config.resolve.extensions = [
+      ...config.resolve.extensions,
+      '.css',
+    ];
 
     return config;
   },

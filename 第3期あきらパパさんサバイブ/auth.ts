@@ -19,20 +19,28 @@ export const authOptions: NextAuthOptions = {
         try {
           await connectDB();
           
+          // ADMIN_EMAILS環境変数から管理者メールアドレスを取得
+          const adminEmails = process.env.ADMIN_EMAILS?.split(',').map(email => email.trim().toLowerCase()) || [];
+          const isAdmin = user.email && adminEmails.includes(user.email.toLowerCase());
+          
           const existingUser = await User.findOne({ email: user.email });
           
           if (!existingUser) {
-            // 新規ユーザーを作成
+            // 新規ユーザーを作成（管理者メールアドレスの場合はadmin、それ以外はuser）
             await User.create({
               name: user.name,
               email: user.email,
               image: user.image,
-              role: 'user',
+              role: isAdmin ? 'admin' : 'user',
             });
           } else {
-            // 既存ユーザーの情報を更新（必要に応じて）
+            // 既存ユーザーの情報を更新
             existingUser.name = user.name || existingUser.name;
             existingUser.image = user.image || existingUser.image;
+            // ADMIN_EMAILSに含まれている場合は管理者権限を付与
+            if (isAdmin && existingUser.role !== 'admin') {
+              existingUser.role = 'admin';
+            }
             existingUser.updatedAt = new Date();
             await existingUser.save();
           }
@@ -43,7 +51,8 @@ export const authOptions: NextAuthOptions = {
       }
       return true;
     },
-    async jwt({ token, user, account }) {
+    async jwt({ token, user, account, trigger }) {
+      // 初回ログイン時
       if (user && account?.provider === 'google') {
         try {
           await connectDB();
@@ -51,9 +60,28 @@ export const authOptions: NextAuthOptions = {
           if (dbUser) {
             token.id = dbUser._id.toString();
             token.role = dbUser.role;
+            token.email = dbUser.email;
+            console.log('JWT - Initial login, role:', dbUser.role);
           }
         } catch (error) {
           console.error('JWT取得エラー:', error);
+        }
+      } else if (token.email) {
+        // 既存セッションの場合も、毎回MongoDBから最新のroleを取得
+        // trigger === 'update' の場合はセッション更新時
+        try {
+          await connectDB();
+          const dbUser = await User.findOne({ email: token.email });
+          if (dbUser) {
+            const oldRole = token.role;
+            token.role = dbUser.role;
+            token.id = dbUser._id.toString();
+            if (oldRole !== dbUser.role) {
+              console.log('JWT - Role updated:', oldRole, '->', dbUser.role);
+            }
+          }
+        } catch (error) {
+          console.error('JWT更新エラー:', error);
         }
       }
       return token;

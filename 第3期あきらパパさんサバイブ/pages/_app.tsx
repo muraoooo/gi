@@ -5,9 +5,10 @@ import { AppBar, Toolbar, Typography, Button, Box, Avatar, Menu, MenuItem } from
 import ContactMailIcon from '@mui/icons-material/ContactMail.js';
 import HomeIcon from '@mui/icons-material/Home.js';
 import DashboardIcon from '@mui/icons-material/Dashboard.js';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings.js';
 import LogoutIcon from '@mui/icons-material/Logout.js';
 import { SessionProvider, useSession, signOut } from 'next-auth/react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const theme = createTheme({
   palette: {
@@ -69,6 +70,15 @@ function Navigation() {
               >
                 ダッシュボード
               </Button>
+              {session.user?.role === 'admin' && (
+                <Button
+                  color="inherit"
+                  startIcon={<AdminPanelSettingsIcon />}
+                  onClick={() => router.push('/admin')}
+                >
+                  管理者画面
+                </Button>
+              )}
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, ml: 1 }}>
                 <Avatar
                   src={session.user?.image || undefined}
@@ -123,6 +133,21 @@ function Navigation() {
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
   const isLandingPage = router.pathname === '/';
+
+  // DataGridのCSSをクライアントサイドでのみ読み込む
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      // 既に読み込まれているか確認
+      const existingLink = document.querySelector('link[href="/css/data-grid.css"]');
+      if (!existingLink) {
+        // CSSファイルを動的に読み込む
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = '/css/data-grid.css';
+        document.head.appendChild(link);
+      }
+    }
+  }, []);
 
   if (isLandingPage) {
     return (
