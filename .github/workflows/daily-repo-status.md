@@ -5,6 +5,8 @@ on:
     - cron: '0 0 * * *'
 permissions:
   contents: read
+env:
+  AGENT_ID: githubnext/agentics/copilot # ここをcopilotに変更なのだ！
 ---
 
 # ◾️ 指示書
