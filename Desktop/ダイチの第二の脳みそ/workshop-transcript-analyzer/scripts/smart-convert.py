@@ -158,26 +158,25 @@ def format_step_content(step, all_segments):
 
     # Extract key points from segments
     key_snippets = []
-    for segment in segments[:10]:  # First 10 segments
+    for segment in segments:
         snippets = extract_code_snippets(segment['text'])
         key_snippets.extend(snippets)
 
     if key_snippets:
         lines.append("**技術的なポイント:**\n")
-        for snippet, snippet_type in list(set(key_snippets))[:5]:
+        unique_snippets = list(set(key_snippets))[:8]
+        for snippet, snippet_type in unique_snippets:
             lines.append(f"- `{snippet}` ({snippet_type})\n")
         lines.append("\n")
 
-    # Content summary from first few segments
+    # Content - show ALL segments, not abbreviated
     lines.append("**手順:**\n")
-    for i, segment in enumerate(segments[:5]):
-        text = segment['text'][:150]
-        if len(segment['text']) > 150:
-            text += "..."
-        lines.append(f"{i+1}. {text}\n")
-
-    if len(segments) > 5:
-        lines.append(f"... (その他{len(segments)-5}個の手順)\n")
+    for i, segment in enumerate(segments, 1):
+        text = segment['text']
+        # Truncate very long individual segments at 200 chars, but don't skip any
+        if len(text) > 200:
+            text = text[:200] + "..."
+        lines.append(f"{i}. {text}\n")
 
     lines.append("\n")
 
